@@ -7,7 +7,67 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
+code,
+body {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+  background: linear-gradient(90deg, rgb(4, 1, 27) 0%, rgb(27, 24, 32) 100%);
+}
+
+button {
+  padding: 10px 20px 10px 16px;
+  margin: 0px 5px 5px 0px;
+  border-radius: 5px;
+  color: #fff;
+}
+
+input {
+  padding: 10px 20px 10px 16px;
+  border-radius: 0 5px;
+  margin: 0px 10px;
+  border: 2px solid #5d0cff;
+  outline: none;
+  background: transparent;
+  color: #fff;
+}
+
+td {
+  padding: 10px;
+}
+
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  min-height: 90vh;
+}
+
+.user-card {
+  background: #161a2b;
+  font-size: 1rem;
+  margin: 0.5rem;
+  padding: 10px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-insert {
+  background-color: #36b426;
+  border: 3px outset #2d8621;
+}
+
+.button-update {
+  background-color: #3498db;
+  border: 3px outset #2980b9;
+}
+
+.button-delete {
+  background-color: #e74c3c;
+  border: 3px outset #bd3e31;
 }
