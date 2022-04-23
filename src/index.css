@@ -1,73 +1,171 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+  font-family: 'Poppins', sans-serif;
 }
 
-code,
 body {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-  background: linear-gradient(90deg, rgb(4, 1, 27) 0%, rgb(27, 24, 32) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(30deg, #7632e1 0%, #f97723 100%) fixed;
 }
-
 button {
-  padding: 10px 20px 10px 16px;
-  margin: 0px 5px 5px 0px;
-  border-radius: 5px;
-  color: #fff;
+  background-color: #f97723;
+  border-radius: 8px;
+  display: inline-block;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 10px 20px;
+  text-decoration: none;
+}
+button:hover {
+  filter: drop-shadow(3px 3px 1px white);
 }
 
 input {
   padding: 10px 20px 10px 16px;
-  border-radius: 0 5px;
+  border-radius: 5px;
   margin: 0px 10px;
-  border: 2px solid #5d0cff;
+  border: 2px solid white;
   outline: none;
   background: transparent;
   color: #fff;
 }
 
-td {
-  padding: 10px;
+.btn-success {
+  background-color: #4dad5b;
+}
+
+.btn-info {
+  background-color: #30a7d7;
+}
+
+.btn-error {
+  background-color: #ee6b2f;
 }
 
 .App {
+  background: #f1f0f033;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  position: relative;
+  margin: 30px;
+}
+
+.container .card {
+  position: relative;
+  width: 320px;
+  height: 450px;
+  background: #f5f1f17c;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 10px auto;
+}
+
+.container .card:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: coral;
+  clip-path: circle(150px at 80% 20%);
+}
+
+.container .card:after {
+  /* content: 'pokemon'; */
+  position: absolute;
+  top: 30%;
+  left: -20%;
+  font-size: 12em;
+  font-weight: 800;
+  font-style: italic;
+  color: rgba(255, 255, 25, 0.05);
+}
+
+.container .card .contentBx {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: auto;
   text-align: center;
+}
+
+.container .card .contentBx h2 {
+  position: relative;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.container .card .imgBx {
+  position: absolute;
+  width: 100%;
+  height: 218px;
+}
+
+.container .card .imgBx img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  width: 270px;
+}
+
+.container .card .contentBx .id,
+.container .card .contentBx .desc {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 20px;
+  transition: 0.5s;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.addTrainer,
+.addPokemon,
+.container .card .contentBx .form {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  min-height: 90vh;
-}
-
-.user-card {
-  background: #161a2b;
-  font-size: 1rem;
-  margin: 0.5rem;
-  padding: 10px 40px;
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  padding: 8px 20px;
+  transition: 0.5s;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
-.button-insert {
-  background-color: #36b426;
-  border: 3px outset #2d8621;
+.container .card .contentBx h3 {
+  font-weight: 300;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-right: 10px;
 }
 
-.button-update {
-  background-color: #3498db;
-  border: 3px outset #2980b9;
+.container .card .contentBx a {
+  display: inline-block;
+  padding: 10px 20px;
+  background: coral;
+  border-radius: 4px;
+  margin-top: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  color: #111;
+  opacity: 1;
+  margin-top: 0;
 }
 
-.button-delete {
-  background-color: #e74c3c;
-  border: 3px outset #bd3e31;
+.container .card:hover .contentBx a:hover {
+  filter: drop-shadow(3px 3px 1px white);
 }
