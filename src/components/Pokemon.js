@@ -49,7 +49,7 @@ function Pokemon() {
           onClick={() => {
             dispatch(
               addPokemon({
-                id: pokemonList[pokemonList.length - 1].id + 1,
+                /* id: pokemonList[pokemonList.length - 1].id + 1, */
                 name: name,
                 types: type,
                 level: 1,
@@ -65,21 +65,23 @@ function Pokemon() {
 
       <div className="displayPokemons">
         {console.log(pokemonList)}
-        {pokemonList.map((poke) => {
+
+        {/* check if promice is resolved */}
+        {(typeof(pokemonList) == Array ? pokemonList : []).map((poke) => {
           return (
-            <div class="container">
-              <div class="card">
-                <div class="imgBx">
-                  <img src="{poke.sprites}" alt="pokemon img" />
+            <div className="container" key={poke.id}>
+              <div className="card">
+                <div className="imgBx">
+                  <img src={poke.sprites} alt="pokemon img" />
                 </div>
-                <div class="contentBx">
+                <div className="contentBx">
                   <h2>{poke.name}</h2>
-                  <div class="desc">
+                  <div className="desc">
                     <h3>
                       Id: {poke.id} - Number: {poke.id} - Level: {poke.level}
                     </h3>
                   </div>
-                  <div class="desc">
+                  <div className="desc">
                     <h3>Types: {poke.types}</h3>
                   </div>
                   {/* UPDATE INPUTS  */}
@@ -115,7 +117,7 @@ function Pokemon() {
                       required
                     />
                   </div>
-                  <div class="desc">
+                  <div className="desc">
                     <button
                       className="btn-info"
                       onClick={() => {

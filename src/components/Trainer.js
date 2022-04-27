@@ -7,11 +7,12 @@ import {
   deleteTrainer,
 } from '../store/reduces/TrainerReduce';
 
-function Trainer() {
+function  Trainer() {
   const dispatch = useDispatch();
+  
   // get trainer state
   const trainerList = useSelector((state) => state.trainer.value);
-
+  
   const [name, setName] = useState('');
   const [newName, setNewName] = useState('');
   return (
@@ -23,7 +24,7 @@ function Trainer() {
           type="text"
           placeholder="Name..."
           className="username"
-          value={name}
+          value={name}  
           onChange={(e) => {
             setName(e.target.value);
           }}
@@ -34,7 +35,7 @@ function Trainer() {
           onClick={() => {
             dispatch(
               addTrainer({
-                id: trainerList[trainerList.length - 1].id + 1,
+                //  id: trainerList[trainerList.length - 1].id + 1,
                 name: name,
                 pokemonTeam: [],
                 allPokemons: [],
@@ -48,22 +49,23 @@ function Trainer() {
 
       <div className="displayTrainers">
         {console.log(trainerList)}
-        {trainerList.map((trn) => {
+        {/* check if promice is resolved */}
+        {(typeof(trainerList) == Array ? trainerList : []).map((trn) => {
           return (
-            <div class="container">
-              <div class="card">
-                <div class="imgBx">
+            <div className="container" key={trn.id}>
+              <div className="card">
+                <div className="imgBx">
                   <img
                     src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimg00.deviantart.net%2F4238%2Fi%2F2012%2F295%2Fe%2Fe%2Fpokedex_vector_style_by_cristopheros-d5imu6t.png&f=1&nofb=1"
                     alt="pokedex"
                   />
                 </div>
-                <div class="contentBx">
+                <div className="contentBx">
                   <h2>{trn.name}</h2>
-                  <div class="desc">
+                  <div className="desc">
                     <h3>Id: {trn.id}</h3>
                   </div>
-                  <div class="desc">
+                  <div className="desc">
                     <h3>Pokemon Team:</h3>
 
                     <h3> All Pokemons:</h3>
@@ -81,7 +83,7 @@ function Trainer() {
                       required
                     />
                   </div>
-                  <div class="desc">
+                  <div className="desc">
                     <button
                       className="btn-info"
                       onClick={() => {
@@ -108,10 +110,6 @@ function Trainer() {
           );
         })}
 
-        {/* <p> Id: {trainer.id}</p>
-        <p> Name: {trainer.name}</p>
-        <p> Pokemon Team: {trainer.pokemonTeam} </p>
-        <p> All Pokemons: {trainer.allPokemons}</p> */}
       </div>
     </div>
   );

@@ -1,17 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { db } from '../../util/firebaseConfig';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, addDoc } from 'firebase/firestore';
 
-const initialStateValue = [
-  {
-    id: 4,
-    name: 'charmander',
-    types: 'fire',
-    level: 1,
-    sprites:
-      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
-  },
+/* const initialStateValue = [
   {
     id: 1,
     name: 'bulbasaur',
@@ -20,8 +12,16 @@ const initialStateValue = [
     sprites:
       'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
   },
-];
-//const initialStateValue = getData();
+  {
+    id: 4,
+    name: 'charmander',
+    types: 'fire',
+    level: 1,
+    sprites:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
+  },
+]; */
+
 
 //set the references endpoint to the database
 const collectionRef = collection(db, 'pokemons');
@@ -38,6 +38,8 @@ const getData = async () => {
   return initialValue;
 };
 
+const initialStateValue = getData();
+
 export const pokemonSlice = createSlice({
   // STATE
   name: 'pokemon',
@@ -48,7 +50,8 @@ export const pokemonSlice = createSlice({
   // ACTIONS
   reducers: {
     addPokemon: (state, action) => {
-      state.value.push(action.payload);
+      addDoc(collectionRef, action.payload);
+      //state.value.push(action.payload);
     },
     updatePokemon: (state, action) => {
       state.value.map((pokemon) => {

@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { db } from '../../util/firebaseConfig';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, addDoc} from 'firebase/firestore';
 
-const initialStateValue = [
+/* const initialStateValue = [
   {
     id: 0,
     name: '',
@@ -16,8 +16,7 @@ const initialStateValue = [
     pokemonTeam: [],
     allPokemons: [],
   },
-];
-//const initialStateValue = getData();
+]; */
 
 //set the references endpoint to the database
 const collectionRef = collection(db, 'users');
@@ -25,7 +24,7 @@ const collectionRef = collection(db, 'users');
 //get collection data from database
 const getData = async () => {
   const data = await getDocs(collectionRef);
-
+  
   const initialValue = data.docs.map((doc) => ({
     ...doc.data(),
     id: doc.id,
@@ -33,6 +32,7 @@ const getData = async () => {
   console.log(initialValue);
   return initialValue;
 };
+const initialStateValue = getData();
 
 export const trainerSlice = createSlice({
   // STATE
@@ -44,7 +44,8 @@ export const trainerSlice = createSlice({
   // ACTIONS
   reducers: {
     addTrainer: (state, action) => {
-      state.value.push(action.payload);
+      addDoc(collectionRef, action.payload);
+      //state.value.push(action.payload);
     },
     updateTrainer: (state, action) => {
       state.value.map((trainer) => {
