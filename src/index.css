@@ -169,3 +169,7 @@ input {
 .container .card:hover .contentBx a:hover {
   filter: drop-shadow(3px 3px 1px white);
 }
+.select {
+  width: 300px;
+  margin: 20px auto;
+}

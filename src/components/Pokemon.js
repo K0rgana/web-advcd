@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Select from 'react-select';
 
 import {
   addPokemon,
   updatePokemon,
   deletePokemon,
+  getPokemonDB,
 } from '../store/reduces/PokemonReduce';
 
 function Pokemon() {
@@ -14,10 +16,35 @@ function Pokemon() {
   const pokemonList = useSelector((state) => state.pokemon.value);
 
   const [name, setName] = useState('');
-  const [type, setType] = useState('');
+  const [number, setNumber] = useState('');
   const [newName, setNewName] = useState('');
-  const [newType, setNewType] = useState('');
   const [newLevel, setNewLevel] = useState('');
+  const [selectOptions, setSelectOptions] = useState('');
+
+  //select pokemon types list
+  const options = [
+    { label: 'Normal', value: 'Normal' },
+    { label: 'Fire', value: 'Fire' },
+    { label: 'Grass', value: 'Grass' },
+    { label: 'Electric', value: 'Electric' },
+    { label: 'Ice', value: 'Ice' },
+    { label: 'Fighting', value: 'Fighting' },
+    { label: 'Poison', value: 'Poison' },
+    { label: 'Ground', value: 'Ground' },
+    { label: 'Flying', value: 'Flying' },
+    { label: 'Psychic', value: 'Psychic' },
+    { label: 'Bug', value: 'Bug' },
+    { label: 'Rock', value: 'Rock' },
+    { label: 'Ghost', value: 'Ghost' },
+    { label: 'Dark', value: 'Dark' },
+    { label: 'Steel', value: 'Steel' },
+    { label: 'Dragon', value: 'Dragon' },
+    { label: 'Fairy', value: 'Fairy' },
+  ];
+
+  useEffect(() => {
+    dispatch(getPokemonDB());
+  }, [dispatch, name]);
 
   return (
     <div className="container">
@@ -26,9 +53,10 @@ function Pokemon() {
       <div className="addPokemon">
         <input
           type="text"
-          placeholder="Name..."
+          placeholder="Pokemon name (required)"
           className="username"
           value={name}
+          /* value={name === '' ? newName : name} */
           onChange={(e) => {
             setName(e.target.value);
           }}
@@ -36,27 +64,49 @@ function Pokemon() {
         />
         <input
           type="text"
-          placeholder="Type..."
+          placeholder="Pokemon index number (required)"
           className="username"
-          value={type}
+          value={number}
           onChange={(e) => {
-            setType(e.target.value);
+            setNumber(e.target.value);
           }}
           required
         />
+
+        <Select
+          className="select"
+          options={options}
+          isMulti
+          isClearable={true}
+          isSearchable={true}
+          onChange={(item) => {
+            setSelectOptions(item);
+          }}
+        />
+
+        {/* <button
+          className="btn-success"
+          onClick={() => {
+            dispatch(getPokemon(name));
+            console.log(name);
+          }}
+        >
+          Search
+        </button> */}
         <button
           className="btn-success"
           onClick={() => {
             dispatch(
               addPokemon({
-                /* id: pokemonList[pokemonList.length - 1].id + 1, */
                 name: name,
-                types: type,
+                number: number,
+                types: selectOptions,
                 level: 1,
-                sprites:
-                  'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
+                sprites: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${number}.png`,
               })
             );
+            setName('');
+            setNumber('');
           }}
         >
           + Add
@@ -67,7 +117,7 @@ function Pokemon() {
         {console.log(pokemonList)}
 
         {/* check if promice is resolved */}
-        {(typeof(pokemonList) == Array ? pokemonList : []).map((poke) => {
+        {(typeof pokemonList == Array ? pokemonList : []).map((poke) => {
           return (
             <div className="container" key={poke.id}>
               <div className="card">
@@ -78,7 +128,8 @@ function Pokemon() {
                   <h2>{poke.name}</h2>
                   <div className="desc">
                     <h3>
-                      Id: {poke.id} - Number: {poke.id} - Level: {poke.level}
+                      Id: {poke.id} - Number: {poke.number} - Level:{' '}
+                      {poke.level}
                     </h3>
                   </div>
                   <div className="desc">
@@ -106,16 +157,6 @@ function Pokemon() {
                       }}
                       required
                     />
-                    <input
-                      type="text"
-                      placeholder="NewType..."
-                      className="type"
-                      value={newType}
-                      onChange={(e) => {
-                        setNewType(e.target.value);
-                      }}
-                      required
-                    />
                   </div>
                   <div className="desc">
                     <button
@@ -126,7 +167,6 @@ function Pokemon() {
                             id: poke.id,
                             name: newName,
                             level: newLevel,
-                            types: newType,
                           })
                         );
                         setNewName(name);
