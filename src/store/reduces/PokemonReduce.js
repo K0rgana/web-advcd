@@ -109,20 +109,20 @@ export const pokemonSlice = createSlice({
         level: action.payload.level,
       });
 
-      /* state.value.map((pokemon) => {
+      state.value.map((pokemon) => {
         if (pokemon.id === action.payload.id) {
           pokemon.name = action.payload.name;
           pokemon.level = action.payload.level;
-          pokemon.types = action.payload.types;
+          /* pokemon.types = action.payload.types; */
         }
-      }); */
+      });
     },
     deletePokemon: (state, action) => {
       const pokemonRef = doc(db, 'pokemons', action.payload.id);
       deleteDoc(pokemonRef);
-      /* state.value = state.value.filter(
+      state.value = state.value.filter(
         (pokemon) => pokemon.id !== action.payload.id
-      ); */
+      );
     },
   },
 

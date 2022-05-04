@@ -24,23 +24,23 @@ function Pokemon() {
 
   //select pokemon types list
   const options = [
-    { label: 'Normal', value: 'Normal' },
-    { label: 'Fire', value: 'Fire' },
-    { label: 'Grass', value: 'Grass' },
-    { label: 'Electric', value: 'Electric' },
-    { label: 'Ice', value: 'Ice' },
-    { label: 'Fighting', value: 'Fighting' },
-    { label: 'Poison', value: 'Poison' },
-    { label: 'Ground', value: 'Ground' },
-    { label: 'Flying', value: 'Flying' },
-    { label: 'Psychic', value: 'Psychic' },
-    { label: 'Bug', value: 'Bug' },
-    { label: 'Rock', value: 'Rock' },
-    { label: 'Ghost', value: 'Ghost' },
-    { label: 'Dark', value: 'Dark' },
-    { label: 'Steel', value: 'Steel' },
-    { label: 'Dragon', value: 'Dragon' },
-    { label: 'Fairy', value: 'Fairy' },
+    { id: 0, label: 'Fairy', value: 'Fairy' },
+    { id: 1, label: 'Normal', value: 'Normal' },
+    { id: 2, label: 'Fire', value: 'Fire' },
+    { id: 3, label: 'Grass', value: 'Grass' },
+    { id: 4, label: 'Electric', value: 'Electric' },
+    { id: 5, label: 'Ice', value: 'Ice' },
+    { id: 6, label: 'Fighting', value: 'Fighting' },
+    { id: 7, label: 'Poison', value: 'Poison' },
+    { id: 8, label: 'Ground', value: 'Ground' },
+    { id: 9, label: 'Flying', value: 'Flying' },
+    { id: 10, label: 'Psychic', value: 'Psychic' },
+    { id: 11, label: 'Bug', value: 'Bug' },
+    { id: 12, label: 'Rock', value: 'Rock' },
+    { id: 13, label: 'Ghost', value: 'Ghost' },
+    { id: 14, label: 'Dark', value: 'Dark' },
+    { id: 15, label: 'Steel', value: 'Steel' },
+    { id: 16, label: 'Dragon', value: 'Dragon' },
   ];
   // console.group('sync')
   // dispatch(synchronizePokemon());
@@ -144,7 +144,7 @@ function Pokemon() {
                   <div className="desc">
                     <h3>Types: {poke.types.map(type => {
                       return (
-                        <div key={type.value}>{type.value}</div>
+                        <div key={type.id}>{type.value}</div>
                       )
                     })}</h3>
                   </div>

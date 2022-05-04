@@ -50,7 +50,7 @@ function  Trainer() {
       <div className="displayTrainers">
         {console.log(trainerList)}
         {/* check if promice is resolved */}
-        {(typeof(trainerList) == Array ? trainerList : []).map((trn) => {
+        {trainerList.map((trn) => {
           return (
             <div className="container" key={trn.id}>
               <div className="card">
