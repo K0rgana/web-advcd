@@ -7,6 +7,7 @@ import {
   updatePokemon,
   deletePokemon,
   getPokemonDB,
+  synchronizePokemon,
 } from '../store/reduces/PokemonReduce';
 
 function Pokemon() {
@@ -41,10 +42,18 @@ function Pokemon() {
     { label: 'Dragon', value: 'Dragon' },
     { label: 'Fairy', value: 'Fairy' },
   ];
+  // console.group('sync')
+  // dispatch(synchronizePokemon());
+  // console.groupEnd('sync')
 
-  useEffect(() => {
-    dispatch(getPokemonDB());
-  }, [dispatch, name]);
+  // useEffect(() => {
+  //   console.log(pokeList.length)
+  //   dispatch(getPokemonDB());
+  //   console.log('here');
+  //   return ()=> {
+  //     console.log('dismount');
+  //   }
+  // }, []);
 
   return (
     <div className="container">
@@ -114,10 +123,10 @@ function Pokemon() {
       </div>
 
       <div className="displayPokemons">
-        {console.log(pokemonList)}
+        {console.log("pokelist", pokemonList)}
 
         {/* check if promice is resolved */}
-        {(typeof pokemonList == Array ? pokemonList : []).map((poke) => {
+        {pokemonList.map((poke) => {
           return (
             <div className="container" key={poke.id}>
               <div className="card">
@@ -133,7 +142,11 @@ function Pokemon() {
                     </h3>
                   </div>
                   <div className="desc">
-                    <h3>Types: {poke.types}</h3>
+                    <h3>Types: {poke.types.map(type => {
+                      return (
+                        <div key={type.value}>{type.value}</div>
+                      )
+                    })}</h3>
                   </div>
                   {/* UPDATE INPUTS  */}
                   <div className="form">
