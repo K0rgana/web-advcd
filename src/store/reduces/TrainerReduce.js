@@ -1,7 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { db } from '../../util/firebaseConfig';
-import { collection, getDocs, addDoc} from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  addDoc,
+  doc,
+  deleteDoc,
+  updateDoc,
+} from 'firebase/firestore';
 
 /* const initialStateValue = [
   {
@@ -18,7 +25,7 @@ import { collection, getDocs, addDoc} from 'firebase/firestore';
   },
 ]; */
 
-const initialStateValue = []
+const initialStateValue = [];
 //set the references endpoint to the database
 const collectionRef = collection(db, 'users');
 
@@ -35,7 +42,6 @@ const collectionRef = collection(db, 'users');
 };
 const initialStateValue = getData(); */
 
-
 //get collection data from database
 export const getUserDB = createAsyncThunk(
   'trainer/getUserDB',
@@ -48,9 +54,9 @@ export const getUserDB = createAsyncThunk(
         ...doc.data(),
         id: doc.id,
       }));
-      console.log("user values from db",initialValue);
+      console.log('user values from db', initialValue);
 
-      return  initialValue
+      return initialValue;
     } catch (error) {
       return thunkAPI.rejectWithValue({ error: error.message });
     }
@@ -71,6 +77,12 @@ export const trainerSlice = createSlice({
       state.value.push(action.payload);
     },
     updateTrainer: (state, action) => {
+      const userRef = doc(db, 'users', action.payload.id);
+
+      updateDoc(userRef, {
+        name: action.payload.name,
+      });
+
       state.value.map((trainer) => {
         if (trainer.id === action.payload.id) {
           trainer.name = action.payload.name;
@@ -78,6 +90,8 @@ export const trainerSlice = createSlice({
       });
     },
     deleteTrainer: (state, action) => {
+      const userRef = doc(db, 'users', action.payload.id);
+      deleteDoc(userRef);
       state.value = state.value.filter(
         (trainer) => trainer.id !== action.payload.id
       );

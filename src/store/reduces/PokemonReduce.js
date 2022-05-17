@@ -46,9 +46,9 @@ export const getPokemonDB = createAsyncThunk(
         ...doc.data(),
         id: doc.id,
       }));
-      console.log("pokemon values from db",initialValue);
+      console.log('pokemon values from db', initialValue);
 
-      return  initialValue
+      return initialValue;
     } catch (error) {
       return thunkAPI.rejectWithValue({ error: error.message });
     }
@@ -97,7 +97,6 @@ export const pokemonSlice = createSlice({
     //   // })
     // },
     addPokemon: (state, action) => {
-      console.log(action.payload.name);
       addDoc(collectionRef, action.payload);
       state.value.push(action.payload);
     },

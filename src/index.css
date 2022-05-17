@@ -53,7 +53,7 @@ input {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 .container {
   position: relative;
@@ -118,7 +118,7 @@ input {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(0deg);
-  width: 270px;
+  max-width: 70px;
 }
 
 .container .card .contentBx .id,
