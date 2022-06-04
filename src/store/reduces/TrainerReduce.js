@@ -68,6 +68,7 @@ export const trainerSlice = createSlice({
   name: 'trainer',
   initialState: {
     value: initialStateValue,
+    currentUser: JSON.parse(localStorage.getItem('user')) || [],
   },
 
   // ACTIONS
@@ -96,6 +97,14 @@ export const trainerSlice = createSlice({
         (trainer) => trainer.id !== action.payload.id
       );
     },
+    loginTrainer: (state, action) => {
+      state.currentUser = action.payload;
+    },
+    logoutTrainer: (state, action) => {
+      state.currentUser = () => {
+        JSON.parse(localStorage.setItem('user', []));
+      };
+    },
   },
   // THUNK ACTIONS
   extraReducers: {
@@ -113,7 +122,12 @@ export const trainerSlice = createSlice({
 });
 
 // export reducers as actions
-export const { addTrainer, updateTrainer, deleteTrainer } =
-  trainerSlice.actions;
+export const {
+  addTrainer,
+  updateTrainer,
+  deleteTrainer,
+  loginTrainer,
+  logoutTrainer,
+} = trainerSlice.actions;
 
 export default trainerSlice.reducer;
