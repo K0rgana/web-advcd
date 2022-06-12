@@ -102,7 +102,7 @@ export const trainerSlice = createSlice({
     },
     logoutTrainer: (state, action) => {
       state.currentUser = () => {
-        JSON.parse(localStorage.setItem('user', []));
+        localStorage.clear();
       };
     },
   },

@@ -28,11 +28,15 @@ function App() {
 
   return (
     <div className="App">
-      <Login />
-      <Header />
+      {!currentUser.uid && <Login />}
 
-      {/* <Trainer /> */}
-      <Pokemon />
+      {currentUser.uid && (
+        <>
+          <Header />
+          {/* <Trainer /> */}
+          <Pokemon />
+        </>
+      )}
     </div>
   );
 }
