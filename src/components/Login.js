@@ -8,7 +8,7 @@ import {
 
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { loginTrainer } from '../store/reduces/TrainerReduce';
+import { addTrainer, loginTrainer } from '../store/reduces/TrainerReduce';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -27,6 +27,12 @@ const Login = () => {
         const token = credential.accessToken;
         // The signed-in user info.
         const user = result.user;
+        dispatch(
+          addTrainer({
+            uid: user.uid,
+            email: user.email,
+          })
+        );
         dispatch(loginTrainer(user));
         // navitage("/");
       })
@@ -57,6 +63,13 @@ const Login = () => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+
+        dispatch(
+          addTrainer({
+            uid: user.uid,
+            email: user.email,
+          })
+        );
         dispatch(loginTrainer(user));
         // navitage("/");
       })
