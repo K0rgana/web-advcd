@@ -4,7 +4,7 @@ import Trainer from './components/Trainer';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPokemonDB } from './store/reduces/PokemonReduce';
-import { getUserDB } from './store/reduces/TrainerReduce';
+import { getUserDB, getUserPokemonsDB } from './store/reduces/TrainerReduce';
 import Login from './components/Login';
 import Header from './components/Header';
 
@@ -15,6 +15,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getPokemonDB());
+    dispatch(getUserPokemonsDB());
     dispatch(getUserDB());
     console.log('%c will draw app', 'background: red; color: white');
     return () => {

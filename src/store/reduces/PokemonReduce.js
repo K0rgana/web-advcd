@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { db } from '../../util/firebaseConfig';
+import { auth, db } from '../../util/firebaseConfig';
 import {
   collection,
   getDocs,
@@ -38,7 +38,6 @@ const collectionRef = collection(db, 'pokemons');
 export const getPokemonDB = createAsyncThunk(
   'pokemon/getPokemonDB',
   async (_, thunkAPI, dispatch, getState) => {
-    console.log('getPokemonDB');
     try {
       const data = await getDocs(collectionRef);
 
@@ -103,16 +102,14 @@ export const pokemonSlice = createSlice({
     updatePokemon: (state, action) => {
       const pokemonRef = doc(db, 'pokemons', action.payload.id);
 
-      updateDoc(pokemonRef, {
-        name: action.payload.name,
-        level: action.payload.level,
-      });
+      updateDoc(pokemonRef, action.payload);
 
       state.value.map((pokemon) => {
         if (pokemon.id === action.payload.id) {
           pokemon.name = action.payload.name;
           pokemon.level = action.payload.level;
-          /* pokemon.types = action.payload.types; */
+          pokemon.types = action.payload.types;
+          pokemon.sprites = action.payload.sprites;
         }
       });
     },

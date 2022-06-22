@@ -8,39 +8,12 @@ import {
   doc,
   deleteDoc,
   updateDoc,
+  setDoc,
 } from 'firebase/firestore';
-
-/* const initialStateValue = [
-  {
-    id: 0,
-    name: '',
-    pokemonTeam: [],
-    allPokemons: [],
-  },
-  {
-    id: 2,
-    name: 'korgana',
-    pokemonTeam: [],
-    allPokemons: [],
-  },
-]; */
 
 const initialStateValue = [];
 //set the references endpoint to the database
 const collectionRef = collection(db, 'users');
-
-//get collection data from database
-/* const getData = async () => {
-  const data = await getDocs(collectionRef);
-  
-  const initialValue = data.docs.map((doc) => ({
-    ...doc.data(),
-    id: doc.id,
-  }));
-  console.log(initialValue);
-  return initialValue;
-};
-const initialStateValue = getData(); */
 
 //get collection data from database
 export const getUserDB = createAsyncThunk(
@@ -63,10 +36,37 @@ export const getUserDB = createAsyncThunk(
   }
 );
 
+export const getUserPokemonsDB = createAsyncThunk(
+  'trainer/getUserPokemonsDB',
+  async (_, thunkAPI, dispatch, getState) => {
+    console.log('getUserPokemonsDB');
+    try {
+      /* Getting the current user's uid from the state and then using that uid to get the user's
+      pokemons from the database. */
+      const { uid } = thunkAPI.getState().auth.user;
+
+      console.log('user', uid);
+      const userPokemonsColRef = collection(db, 'users', uid, 'pokemons');
+      const data = await getDocs(userPokemonsColRef);
+
+      const initialValue = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      console.log('user pokemon values from db', initialValue);
+
+      return initialValue;
+    } catch (error) {
+      return thunkAPI.rejectWithValue({ error: error.message });
+    }
+  }
+);
+
 export const trainerSlice = createSlice({
   // STATE
   name: 'trainer',
   initialState: {
+    pokemons: [],
     value: initialStateValue,
     currentUser: JSON.parse(localStorage.getItem('user')) || [],
   },
@@ -74,8 +74,17 @@ export const trainerSlice = createSlice({
   // ACTIONS
   reducers: {
     addTrainer: (state, action) => {
-      addDoc(collectionRef, action.payload);
+      /* Setting the document in the collection with the id of the user. */
+      setDoc(doc(collectionRef, action.payload.uid), action.payload);
+      //addDoc(collectionRef, action.payload);
       state.value.push(action.payload);
+    },
+    addTrainerPokemon: (state, action) => {
+      /* Adding a pokemon to the trainer's pokemon collection. */
+      const user = action.payload.userId;
+      const userPokemonsColRef = collection(db, 'users', user, 'pokemons');
+      addDoc(userPokemonsColRef, action.payload);
+      state.pokemons.push(action.payload);
     },
     updateTrainer: (state, action) => {
       const userRef = doc(db, 'users', action.payload.id);
@@ -118,6 +127,16 @@ export const trainerSlice = createSlice({
     [getUserDB.rejected]: (state, action) => {
       state.status = 'failed';
     },
+    [getUserPokemonsDB.pending]: (state, action) => {
+      state.status = 'loading';
+    },
+    [getUserPokemonsDB.fulfilled]: (state, action) => {
+      state.status = 'success';
+      state.pokemons = action.payload;
+    },
+    [getUserPokemonsDB.rejected]: (state, action) => {
+      state.status = 'failed';
+    },
   },
 });
 
@@ -128,6 +147,7 @@ export const {
   deleteTrainer,
   loginTrainer,
   logoutTrainer,
+  addTrainerPokemon,
 } = trainerSlice.actions;
 
 export default trainerSlice.reducer;

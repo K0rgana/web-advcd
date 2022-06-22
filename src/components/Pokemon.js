@@ -9,12 +9,14 @@ import {
   getPokemonDB,
   synchronizePokemon,
 } from '../store/reduces/PokemonReduce';
+import { addTrainerPokemon } from '../store/reduces/TrainerReduce';
 
 function Pokemon() {
   const dispatch = useDispatch();
 
   // get trainer state
   const pokemonList = useSelector((state) => state.pokemon.value);
+  const currentUser = useSelector((state) => state.trainer.currentUser);
 
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
@@ -22,7 +24,7 @@ function Pokemon() {
   const [selectOptions, setSelectOptions] = useState('');
 
   const [message, setMessage] = useState('');
-  const [isEditing, setIsEditing] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
   const [pokemonId, setPokemonId] = useState('');
 
   //select pokemon types list
@@ -68,6 +70,7 @@ function Pokemon() {
       dispatch(
         updatePokemon({
           id: pokemonId,
+          userId: currentUser.uid,
           name: name,
           number: number,
           types: selectOptions,
@@ -79,6 +82,7 @@ function Pokemon() {
     } else {
       dispatch(
         addPokemon({
+          userId: currentUser.uid,
           name: name,
           number: number,
           types: selectOptions,
