@@ -729,7 +729,7 @@ For the Pokemon component we will create a form that will submit pokemons and a 
        npm install redux react-redux @reduxjs/toolkit
     ```
 1.  Go to the file `/src/index.js`. Import `configureStore` from `@reduxjs/toolkit` and
-    `Provider` from `react-redux`. Then create create a const `store` that will contain a root reducer. You also have to wrap the componet `App` with the `Provider. Like this
+    `Provider` from `react-redux`. Then create create a const `store` that will contain a root reducer. You also have to wrap the componet `App` with the `Provider. Like this:
 
     ```js
 
@@ -805,6 +805,23 @@ For the Pokemon component we will create a form that will submit pokemons and a 
       export const { } =  pokemonSlice.actions;
 
       export default pokemonSlice.reducer;
+    ```
+
+1.  Go to the file `/src/index.js` and import the reduces inside the root `reduces`, like this:
+
+    ```js
+    import { Provider } from 'react-redux';
+
+    import TrainerReduce from './store/reduces/TrainerReduce';
+    import PokemonReduce from './store/reduces/PokemonReduce';
+
+    //toolkit -> main reduces root
+    const store = configureStore({
+      reducer: {
+        trainer: TrainerReduce,
+        pokemon: PokemonReduce,
+      },
+    });
     ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
