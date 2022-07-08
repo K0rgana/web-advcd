@@ -60,7 +60,7 @@
 
 <!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
-Pokehub is app for register pokemons. The proposite of this project is to study the tecnology of React and Firebase as Development Stack and analise they advanges and limitations.
+Pokehub is app for register pokemons. The proposal of this project is to study the tecnology of React and Firebase as Development Stack and analyze their advanges and limitations.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -82,8 +82,10 @@ The first steps in here are to run the application and you try to recreate on yo
 
 Before start to follow the tutorial or run this project you need to already have installed:
 
-- [Node.js](https://nodejs.org/)
-- [Npm](https://www.npmjs.com/)
+- [Node.js](https://nodejs.org/) - **v.14.18.0** or above
+- [Npm](https://www.npmjs.com/) - **v.6.14.15** or above
+
+Also it is important to mention that these commands were run from Windows OS, so some of them may be a bit different depending on your OS.
 
 ### Run the project
 
@@ -104,7 +106,7 @@ Before start to follow the tutorial or run this project you need to already have
 
 ## Build Your Own App
 
-Now the following tutorial will guide you how to build a equal application to that you just saw.
+Now the following tutorial will guide you how to build a similar application to that you just saw.
 
 ## Starting React
 
@@ -127,19 +129,19 @@ Now the following tutorial will guide you how to build a equal application to th
 ## Starting Firebase
 
 1. Access <https:/firebase.google.com>
-1. Login with a google account and access the console
-1. Create a project
-1. Create an app
+1. Login with a google account and access the console **(add print)**
+1. Create a project **(add print)**
+1. Create an app **(add print)**
 1. Install the firebase
    ```bash
    npm install firebase
    ```
-1. Copy the firebase output (configs and SDKs imports) and paste in the react project. The recommended is to create a separate file to keep the access keys in a safe place (try using environment variables). For this project, inside the `scr` folder, create a new folder `util` and inside create a new file `firebaseConfig.js`
+1. Copy the firebase output (configs and SDKs imports) **(add print)** and paste in the react project. The recommendation is to create a separate file to keep the access keys in a safe place (try using environment variables). For this project, inside the `src` folder, create a new folder `util` and inside it create a new file `firebaseConfig.js`
 
 1. Go back to firebase console and create a database in the firestore database, you can chose between the **prodution** or **test** environments.
-1. If you chose the **prodution environment**. You need to access the cloud firestore rules, in the upper tabs. Now update the database rules to allow reading and writing the database (`allow read, write: if true;`). You just need to keep like this while you are learning, you can (and should) change back when deploying or when you are setting up are real application.
-1. If you chose the **test environment** just keep in mind that this environment will eventually expires and will need to be refreshed.
-1. Go back to where you pasted the SDKs in the react project, in this case the file `/src/util/firebaseConfig.js`, and add the imports to Firestore. It should look something like this:
+1. If you chose the **prodution environment**, you need to access the cloud firestore rules, in the upper tabs. Now update the database rules to allow reading and writing the database (`allow read, write: if true;` - ATTENTION - this is just for the sake of this test project, do not use this rules in a real production environment). You just need to keep like this while you are learning, you can (and should) change back when deploying or when you are setting up are real application.
+1. If you chose the **test environment** just keep in mind that this environment will eventually expires and it will need to be refreshed.
+1. Go back to where you pasted the SDKs in the react project, in this case the file `/src/util/firebaseConfig.js`, and add the imports to Firestore. It should looks something like this:
 
    ```js
    import { initializeApp } from "firebase/app";
@@ -163,7 +165,7 @@ Now the following tutorial will guide you how to build a equal application to th
 
 ## Starting Tailwind
 
-For style the app we will use the framework css tailwind. To start using you can make a full instalation or just import the CDN link in this file `/public/index.html` inside the html tag `head`. Like this:
+For style the app we will use the framework Tailwind CSS. To start using it you can make a full instalation or just import the CDN link in this file `/public/index.html` inside the html tag `head`. Like this:
 
 ```html
 <html lang="en">
@@ -192,12 +194,12 @@ For style the app we will use the framework css tailwind. To start using you can
 
 ## Creating react components
 
-Now we will create some react components. Inside the `scr` folder, create a new folder with the name `components` in this folder we will create the components `Login`, `Header` and `Pokemon`.
+Now we will create some react components. Inside the `src` folder, create a new folder named `components`; in such folder we will create the components `Login`, `Header` and `Pokemon`.
 
-Before to start to create the components, here are some breve react concepts tha you should know:
+Before to start to create the components, here are a few react concepts that you should know:
 
-- Proposit of Component: A component is a piece of code that when exported can bem reuse in another parts of the code
-- Basic structure of a componet: The structure is similar to a function that will return a htlm code. Look like this:
+- Component: A component is a piece of code that when exported can be reused in other parts of the code
+- Basic structure of a Component: The structure is similar to a function that will return a HTML code. It looks like this:
 
   ```js
   function Component () {
@@ -208,16 +210,16 @@ Before to start to create the components, here are some breve react concepts tha
   export default Component;
   ```
 
-- React hooks: Hooks are function components that allow to have access to state and other React features. We will use just 2 hooks in this project, they are:
+- React hooks: Hooks are **component functions** that allow us to have access to state and other React features. We will use just 2 hooks in this project, they are:
 
-  - `useState` Hook: Allows us to track state in a function component. This states can be pass to other (children) components as a prop. The hook accepts an initial state and returns two values:
+  - `useState` Hook: Allows us to track state in a function component. This states can be passed to other (children) components as a `prop`. The hook accepts an initial state and returns two values:
 
     - The current state.
     - A function that updates the state.
 
-  - `useEffect` Hook: Allows you to perform side effects as fetch data, trigger DOM Events, and set timers in your components. The hook has one mandatory argument, accepts a function.
+  - `useEffect` Hook: Allows you to perform side effects as fetch data, trigger DOM Events, and set timers in your components. The hook has one mandatory argument, a function.
 
-  See a exemple to how to use them, this will set a state varible ´count´ and update the value at every second:
+  See an exemple of how to use them, this will set a state varible `count` and update its value every second:
 
   ```js
   // Importing the useState and useEffect hooks from the React library.
@@ -258,7 +260,11 @@ For the Login component we will create a form that will login and register the u
 1. Should look like this:
 
    ```js
+   // imports ...
+
    const Login = () => {
+     // Hooks ...
+
      return (
        <div className="my-4 bg-white rounded p-5">
          <p className="text-xl font-bold text-gray-800 my-1">
@@ -314,7 +320,7 @@ For the Login component we will create a form that will login and register the u
    export default Login;
    ```
 
-1. Set the `error` state in the form, for every time that app has a error messagem for this component then will show the feedback to the user
+1. Set the `error` state in the form, for every time that app has an error message for this component then will show the feedback to the user
 
    ```js
     //...code
@@ -768,7 +774,7 @@ For the Pokemon component we will create a form that will submit pokemons and a 
       // STATE
       name: 'trainer',
       initialState: {
-        value: initialStateValue,
+        value: [],
       },
 
       // ACTIONS
@@ -776,11 +782,12 @@ For the Pokemon component we will create a form that will submit pokemons and a 
 
       // THUNK ACTIONS
       extraReducers: {},
+    });
 
-      // export reducers as actions
-      export const { } =  trainerSlice.actions;
+    // export reducers as actions
+    export const {} = trainerSlice.actions;
 
-      export default trainerSlice.reducer;
+    export default trainerSlice.reducer;
     ```
 
     ```js
@@ -792,7 +799,7 @@ For the Pokemon component we will create a form that will submit pokemons and a 
       // STATE
       name: 'pokemon',
       initialState: {
-        value: initialStateValue,
+        value: [],
       },
 
       // ACTIONS
@@ -800,11 +807,12 @@ For the Pokemon component we will create a form that will submit pokemons and a 
 
       // THUNK ACTIONS
       extraReducers: {},
+    });
 
-      // export reducers as actions
-      export const { } =  pokemonSlice.actions;
+    // export reducers as actions
+    export const {} = pokemonSlice.actions;
 
-      export default pokemonSlice.reducer;
+    export default pokemonSlice.reducer;
     ```
 
 1.  Go to the file `/src/index.js` and import the reduces inside the root `reduces`, like this:
@@ -838,7 +846,7 @@ For create a new document in a collection exists two ways of doing, the first on
 
 For both ways you need to import **collection** and a method **addDoc** or **setDoc**, when use setDoc also import **doc**, from `'firebase/firestore'` to be able to manage a collection and add a document in the database. If the collection doesn't exist the firebase will create it automaticaly.
 
-When making multiples actions in a file is commum to create a const to store the collection reference, to make it a reference a collection you can pass two paramenters like this `collection(db, <collection name>)`.
+When making multiples actions in a file is commum to create a `const` to store the collection reference, to make it a reference to a collection you can pass two paramenters like this `collection(db, <collection name>)`.
 
 Here is a exemple:
 
@@ -950,6 +958,85 @@ deleteDoc(userRef);
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Creating Reduces with Redux
+
+1. Go to the file `TrainerReduce.js` inside of the `/src/store/reduces/TrainerReduce.js`.
+1. Now we will make some imports. From `@reduxjs/toolkit` import `createAsyncThunk`. From `firebase/firestore` import `collection`,`getDocs`, `addDoc`,`doc`,`deleteDoc`,`updateDoc` and `setDoc`. From the `firebaseConfig.js` file import `db`:
+
+   ```js
+   import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
+   import { db } from '../../util/firebaseConfig';
+   import {
+     collection,
+     getDocs,
+     addDoc,
+     doc,
+     deleteDoc,
+     updateDoc,
+     setDoc,
+   } from 'firebase/firestore';
+
+   export const trainerSlice = createSlice({
+     // STATE
+     // ACTIONS
+     // THUNK ACTIONS
+   });
+   ```
+
+1. Now in the **initialState** create a new state named `currentUser` that will always look for the user's data in the **localStorage** of the browser, if the data doesn't exist we will inicialize with a empty array.
+
+   ```js
+   const initialStateValue = [];
+
+   export const trainerSlice = createSlice({
+     // STATE
+     name: 'trainer',
+     initialState: {
+       value: initialStateValue,
+       currentUser: JSON.parse(localStorage.getItem('user')) || [],
+     },
+
+     // ACTIONS
+   });
+   ```
+
+1. In the **reducers** we will create it new actions that will interact with the database and update the current state of `values` in the **initialState**. Now create a new action named `addTrainer` that will create a new document with an explicitly id that store the user's data in the database.
+
+   ```js
+   export const trainerSlice = createSlice({
+     // STATE
+     // ACTIONS
+     reducers: {
+       addTrainer: (state, action) => {
+         /* Setting the document in the collection with the id of the user. */
+         setDoc(doc(collectionRef, action.payload.uid), action.payload);
+         /* add user data to the 'value' state in the 'initialState' */
+         state.value.push(action.payload);
+       },
+   });
+   ```
+
+1. Still in the **reducers**, create two new actions named `loginTrainer` and `logoutTrainer` that will update the current state `currentUser` in the **initialState**. Looks like this:
+
+   ```js
+   export const trainerSlice = createSlice({
+    // STATE
+    // ACTIONS
+    reducers: {
+      addTrainer: (state, action) => {
+        //...code
+      },
+      loginTrainer: (state, action) => {
+        state.currentUser = action.payload;
+      },
+      logoutTrainer: (state, action) => {
+        state.currentUser = () => {
+          localStorage.clear();
+        };
+   });
+   ```
+
+1. Now we will create a **AsyncThunk** that will fetch the user's data from the database.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
