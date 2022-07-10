@@ -960,21 +960,13 @@ deleteDoc(userRef);
 ## Creating Reduces with Redux
 
 1. Go to the file `TrainerReduce.js` inside of the `/src/store/reduces/TrainerReduce.js`.
-1. Now we will make some imports. From `@reduxjs/toolkit` import `createAsyncThunk`. From `firebase/firestore` import `collection`,`getDocs`, `addDoc`,`doc`,`deleteDoc`,`updateDoc` and `setDoc`. From the `firebaseConfig.js` file import `db`:
+1. Now we will make some imports. From `@reduxjs/toolkit` import `createAsyncThunk`. From `firebase/firestore` import `collection`,`doc` and `setDoc`. From the `firebaseConfig.js` file import `db`:
 
    ```js
    import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
    import { db } from '../../util/firebaseConfig';
-   import {
-     collection,
-     getDocs,
-     addDoc,
-     doc,
-     deleteDoc,
-     updateDoc,
-     setDoc,
-   } from 'firebase/firestore';
+   import { collection, doc, setDoc } from 'firebase/firestore';
 
    export const trainerSlice = createSlice({
      // STATE
@@ -1003,6 +995,9 @@ deleteDoc(userRef);
 1. In the **reducers** we will create it new actions that will interact with the database and update the current state of `values` in the **initialState**. Now create a new action named `addTrainer` that will create a new document with an explicitly id that store the user's data in the database.
 
    ```js
+    //set the references endpoint to the database
+    const collectionRef = collection(db, 'users');
+
    export const trainerSlice = createSlice({
      // STATE
      // ACTIONS
@@ -1036,7 +1031,42 @@ deleteDoc(userRef);
    });
    ```
 
-1. Now we will create a **AsyncThunk** that will fetch the user's data from the database.
+1. export this actions that were created, so we can use it on app. should looks like this:
+
+   ```js
+   export const trainerSlice = createSlice({
+     // ...code
+   });
+   // export reducers as actions
+   export const { addTrainer, loginTrainer, logoutTrainer } =
+     trainerSlice.actions;
+
+   export default trainerSlice.reducer;
+   ```
+
+1. Go to the file `PokemonReduce.js` inside of the `/src/store/reduces/PokemonReduce.js`.
+1. Now we will make some imports. From `@reduxjs/toolkit` import `createAsyncThunk`. From `firebase/firestore` import `collection`,`getDocs`, `addDoc`,`doc`,`deleteDoc`,`updateDoc` and `setDoc`. From the `firebaseConfig.js` file import `db`:
+
+   ```js
+   import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
+   import { db } from '../../util/firebaseConfig';
+   import {
+     collection,
+     getDocs,
+     addDoc,
+     doc,
+     deleteDoc,
+     updateDoc,
+     setDoc,
+   } from 'firebase/firestore';
+
+   export const pokemonSlice = createSlice({
+     // STATE
+     // ACTIONS
+     // THUNK ACTIONS
+   });
+   ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
