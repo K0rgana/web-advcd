@@ -131,23 +131,30 @@ Now the following tutorial will guide you how to build a similar application to 
 1. Access <https:/firebase.google.com>
 1. Login with a google account and access the console <https://console.firebase.google.com>
 1. Create a project
+
    <img src="/img/firebase01.png" alt="create a project" title="create a project" height="190"/>
+
    <img src="/img/firebase02
    .png" alt="insert a name and continue" title="insert a name and continue" height="190"/>
+
    <img src="/img/firebase03
    .png" alt="disable google analytics and create project" title="disable google analytics and create project" height="190"/>
+
    <img src="/img/firebase04
    .png" alt="await the criation and continue" title="await the criation and continue" height="190"/>
 
 1. Create a web app
+
    <img src="/img/firebase05
    .png" alt="select web app" title="select web app" height="190"/>
+
    <img src="/img/firebase06
    .png" alt="give a name and register" title="give a name and register" height="190"/>
 
-   Now save these informations and follow the next steps:
-   <img src="/img/firebase07
-   .png" alt="save these informations" title="save these informations" height="190"/>
+- Now save these informations and follow the next steps:
+
+  <img src="/img/firebase07
+  .png" alt="save these informations" title="save these informations" height="190"/>
 
 1. Install the firebase
    ```bash
@@ -159,8 +166,10 @@ Now the following tutorial will guide you how to build a similar application to 
 
    <img src="/img/firebase08
    .png" alt="create a database" title="create a database" height="190"/>
+
    <img src="/img/firebase09
    .png" alt="chose a environment" title="chose a environment" height="190"/>
+
    <img src="/img/firebase10
    .png" alt="chose a location and enable" title="chose a location and enable" height="190"/>
 
