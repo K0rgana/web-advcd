@@ -317,11 +317,6 @@ For the Login component we will create a form that will login and register the u
              Register
            </button>
          </form>
-
-         <button className="text-sm font-semibold leading-none text-white bg-stone-600  rounded hover:bg-stone-500 py-4 w-full my-2">
-           Continue with Google
-           <p className="text-base font-medium ml-4 text-gray-700 "></p>
-         </button>
        </div>
      );
    };
@@ -1093,7 +1088,543 @@ deleteDoc(userRef);
    });
    ```
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+1. Now in the **initialState** create a new state named `value` and `status` that will store pokemons list , if the pokemon list doesn't exist wet we will inicialize with a empty array.
+
+   ```js
+   const initialStateValue = [];
+
+   export const pokemonSlice = createSlice({
+     // STATE
+     name: 'pokemon',
+     initialState: {
+       value: initialStateValue,
+       status: null,
+     },
+
+     // ACTIONS
+   });
+   ```
+
+1. In the **reducers** we will create it new actions that will interact with the database and update the current state of `value` in the **initialState**. Now create new actions to create, update and delete pokemons from a document that will be store in the database.
+
+   ```js
+    //set the references endpoint to the database
+    const collectionRef = collection(db, 'pokemons');
+
+   export const pokemonSlice = createSlice({
+     // STATE
+     // ACTIONS
+     reducers: {
+       addPokemon: (state, action) => {
+        /* Add a new pokemon to the database and to the 'state' in the 'initialState'. */
+        addDoc(collectionRef, action.payload);
+        state.value.push(action.payload);
+      },
+      updatePokemon: (state, action) => {
+        /* Set reference to the document in the database. */
+        const pokemonRef = doc(db, 'pokemons', action.payload.id);
+
+        /* Update the document in the database. */
+        updateDoc(pokemonRef, action.payload);
+
+        /* Update the 'state' in the 'initialState' with the new values. */
+        state.value.map((pokemon) => {
+          if (pokemon.id === action.payload.id) {
+            pokemon.name = action.payload.name;
+            pokemon.level = action.payload.level;
+            pokemon.types = action.payload.types;
+            pokemon.sprites = action.payload.sprites;
+          }
+        });
+      },
+      deletePokemon: (state, action) => {
+        /* Set reference to the document in the database. */
+        const pokemonRef = doc(db, 'pokemons', action.payload.id);
+        /* Delete the pokemon from the database and from the 'state' in the 'initialState' */
+        deleteDoc(pokemonRef);
+        state.value = state.value.filter(
+          (pokemon) => pokemon.id !== action.payload.id
+        );
+    }
+   });
+   ```
+
+1. export this actions that were created, so we can use it on app. should looks like this:
+
+   ```js
+   export const pokemonSlice = createSlice({
+     // ...code
+   });
+   // export reducers as actions
+   export const { addPokemon, updatePokemon, deletePokemon } =
+     pokemonSlice.actions;
+
+   export default pokemonSlice.reducer;
+   ```
+
+1. Now create a `createAsyncThunk` the will fetch the data from the Firebase database and handle the async request lifecycles. To lean more about this function of the Redux Toolkit [check the documentation here](https://redux-toolkit.js.org/api/createAsyncThunk). Looks like this:
+
+   ```js
+   const collectionRef = collection(db, 'pokemons');
+
+   export const getPokemonDB = createAsyncThunk(
+     'pokemon/getPokemonDB',
+     async (_, thunkAPI, dispatch, getState) => {
+       try {
+         /* Get the data from the database and return it*/
+         const data = await getDocs(collectionRef);
+
+         const initialValue = data.docs.map((doc) => ({
+           ...doc.data(),
+           id: doc.id,
+         }));
+         return initialValue;
+       } catch (error) {
+         /* Returnthe error message to the component*/
+         return thunkAPI.rejectWithValue({ error: error.message });
+       }
+     }
+   );
+
+   export const pokemonSlice = createSlice({
+     //...code
+   });
+   ```
+
+1. Create **extraReducers** to handle the AsyncThunk states, when the call is a success the value state will be updated:
+
+   ```js
+   const collectionRef = collection(db, 'pokemons');
+
+   export const getPokemonDB = createAsyncThunk(
+      //...code
+   );
+
+   export const pokemonSlice = createSlice({
+    // ACTIONS
+    reducers: {
+    },
+
+    // THUNK ACTIONS
+    extraReducers: {
+      [getPokemonDB.pending]: (state, action) => {
+        state.status = 'loading';
+      },
+      [getPokemonDB.fulfilled]: (state, action) => {
+        state.status = 'success';
+        state.value = action.payload;
+      },
+      [getPokemonDB.rejected]: (state, action) => {
+        state.status = 'failed';
+      },
+   });
+   ```
+
+1. Access the `App.js` file in the root project. Now we will import the **components** and **reduces** that we created. Also import `useDispatch, useSelector ` from `react-redux` and `useEffect` from `react`. Looks like this:
+
+   ```js
+   import React, { useEffect } from 'react';
+
+   import { useDispatch, useSelector } from 'react-redux';
+   //Components
+   import Login from './components/Login';
+   import Header from './components/Header';
+   import Pokemon from './components/Pokemon';
+   //Reduces
+   import { getPokemonDB } from './store/reduces/PokemonReduce';
+
+   function App() {
+     //...code
+   }
+   ```
+
+1. Now we will use `useEffect` for triggering the thunk to get the pokemons from the database and for get the **currentUser** user's data from the localStorage. Also in the `return` part add the components.
+
+   ```js
+   //...imports
+
+   function App() {
+     //hook that allows you to dispatch actions to the Redux store
+     const dispatch = useDispatch();
+
+     // Getting the current user from the redux store
+     const currentUser = useSelector((state) => state.trainer.currentUser);
+
+     // this hook is called when the component is mounted
+     useEffect(() => {
+       dispatch(getPokemonDB());
+     });
+
+     // Save the current user to local storage
+     useEffect(() => {
+       localStorage.setItem('user', JSON.stringify(currentUser));
+     }, [currentUser]);
+
+     return (
+       <div className="App">
+         {/* Check if the current user is logged in. If not, it will render the login component. */}
+         {!currentUser.uid && <Login />}
+
+         {/* Check if the user is logged in. If the user is logged in, it will render the components. */}
+         {currentUser.uid && (
+           <>
+             <Header />
+             <Pokemon />
+           </>
+         )}
+       </div>
+     );
+   }
+   ```
+
+1. Now we will use the Firebase's Authentication service. Enable the feature in the Firebase console like this:
+
+   <img src="/img/firebase11.png" alt="select the auth" title="select the auth" height="190"/>
+
+   <img src="/img/firebase12.png" alt="select the email/password" title="select the email/password" height="190"/>
+
+   <img src="/img/firebase13.png" alt="enable and save" title="enable and save" height="190"/>
+
+   <img src="/img/firebase14.png" alt="now is enable" title="now is enable" height="190"/>
+
+1. Go to `/src/util/firebaseConfig.js` and import `getAuth` from `firebase/auth`. should looks like this:
+
+   ```js
+   //...imports
+   import { getAuth } from 'firebase/auth';
+
+   const firebaseConfig = {};
+
+   const app = initializeApp(firebaseConfig);
+   export const db = getFirestore(app);
+   //export the auth
+   export const auth = getAuth();
+   ```
+
+1. Access the `Login.js` file inside of the `/src/components/Login.js`. Here we will create functions that will handle the registration and the login using google `auth`. Start making these imports:
+
+   - `auth` from the `firebaseConfig.js`;
+   - `createUserWithEmailAndPassword`,`signInWithEmailAndPassword` from `firebase/auth`;
+   - `useDispatch` from `react-redux`
+   - `addTrainer, loginTrainer` from `../store/reduces/TrainerReduce`
+
+     ```js
+     import { auth } from '../util/firebaseConfig';
+     import {
+       createUserWithEmailAndPassword,
+       signInWithEmailAndPassword,
+     } from 'firebase/auth';
+
+     import { useState } from 'react';
+     import { useDispatch } from 'react-redux';
+     import { addTrainer, loginTrainer } from '../store/reduces/TrainerReduce';
+
+     const Login = () => {
+       //...code
+     };
+     ```
+
+1. Create the functions `handleRegister` and `handleLogin` like this:
+
+   ```js
+   //imports
+
+   const Login = () => {
+     const dispatch = useDispatch();
+
+     //STATE
+
+     const handleLogin = (e) => {
+       //prevents the page to reload
+       e.preventDefault();
+
+       //sign in with email and password using the auth
+       signInWithEmailAndPassword(auth, email, password)
+         .then((userCredential) => {
+           // Signed in
+           const user = userCredential.user;
+           // trigger the funtion 'loginTrainer' using the current user
+           dispatch(loginTrainer(user));
+         })
+         .catch((error) => {
+           //update the error state with a message
+           setError('Wrong email or password!');
+         });
+     };
+
+     const handleRegister = (e) => {
+       //prevents the page to reload
+       e.preventDefault();
+       //create a new user with email and password using the auth
+       createUserWithEmailAndPassword(auth, email, password)
+         .then((userCredential) => {
+           // Signed in
+           const user = userCredential.user;
+
+           // trigger the funtion 'addTrainer' to the store
+           dispatch(
+             addTrainer({
+               uid: user.uid,
+               email: user.email,
+             })
+           );
+           // trigger the funtion 'loginTrainer' using the current user
+           dispatch(loginTrainer(user));
+         })
+         .catch((error) => {
+           //update the error state with a message
+           setError('Invalid Email or already registred');
+         });
+     };
+
+     return (
+      //...code
+     )
+   };
+   ```
+
+1. Add functions to trigger `onClick` and `onSubmit` events in the buttons of the component, like this:
+
+   ```js
+   const Login = () => {
+     //...code
+     <form onSubmit={handleLogin}>
+       //INPUTS
+       <button
+         className="text-sm font-semibold leading-none text-white bg-indigo-700  rounded hover:bg-indigo-600 py-4 w-full my-2"
+         type="submit"
+       >
+         Login
+       </button>
+       <p className="text-xl text-center text-gray-600 my-1"> or</p>
+       <button
+         className="text-sm font-semibold leading-none text-white bg-indigo-700  rounded hover:bg-indigo-600 py-4 w-full my-2"
+         onClick={handleRegister}
+       >
+         Register
+       </button>
+     </form>;
+   };
+   ```
+
+1. Now we will show the current user in the header component. Go to `/src/components/Header.js` and import:
+
+   - `auth` from the `firebaseConfig.js`;
+   - `signOut` from `firebase/auth`;
+   - `useDispatch`, `useSelector` from `react-redux`
+   - `logoutTrainer` from `../store/reduces/TrainerReduce`
+
+   ```js
+   import { auth } from '../util/firebaseConfig';
+   import { signOut } from 'firebase/auth';
+
+   import { useDispatch, useSelector } from 'react-redux';
+   import { logoutTrainer } from '../store/reduces/TrainerReduce';
+
+   const Header = () => {
+     //...code
+   };
+   ```
+
+1. Use `useSelector` to display the current user info and in the button **logout**, dispatch a function to trigger the `logoutTrainer`. should looks like this:
+
+   ```js
+   //imports
+   function Header() {
+     const currentUser = useSelector((state) => state.trainer.currentUser);
+     const dispatch = useDispatch();
+
+     return (
+       <div className="flex flex-row border border-gray-200/80 bg-gray-100 rounded-lg p-6 my-4">
+         <h3 className="text-xl font-semibold text-gray-800">
+           //show the user email Hello, {currentUser.email}
+         </h3>
+
+         <div className="w-100 flex flex-grow flex-col items-end justify-start">
+           <button
+             className="rounded bg-red-500  py-1 px-5 text-xs text-white transition-all duration-150 ease-in-out hover:bg-red-600"
+             // Sign out the user and then dispatch the logoutTrainer action.
+             onClick={() => {
+               signOut(auth)
+                 .then(() => {
+                   dispatch(logoutTrainer());
+                 })
+                 .catch((error) => {
+                   console.log(error);
+                 });
+             }}
+           >
+             Logout
+           </button>
+         </div>
+       </div>
+     );
+   }
+   ```
+
+1. Now we will show the current user in the Pokemon component. Go to `/src/components/Pokemon.js` and import:
+
+   - `useDispatch`, `useSelector` from `react-redux`
+   - `addPokemon`,`updatePokemon` and
+     `deletePokemon` from `../store/reduces/PokemonReduce`
+
+   ```js
+   //imports
+   import { useDispatch, useSelector } from 'react-redux';
+   import {
+     addPokemon,
+     updatePokemon,
+     deletePokemon,
+   } from '../store/reduces/PokemonReduce';
+
+   const Pokemon = () => {
+     //...code
+   };
+   ```
+
+1. Use `useSelector` to display the pokemons in the **tbody** add dispatch an event on the delete button. should looks like this:
+
+   ```js
+   //imports
+   function Pokemon() {
+     //hook that allows dispatch actions to the Redux store
+     const dispatch = useDispatch();
+
+     // get pokemons list an the current user from state
+     const pokemonList = useSelector((state) => state.pokemon.value);
+     const currentUser = useSelector((state) => state.trainer.currentUser);
+
+     //STATES
+
+     return (
+       //FORM
+
+       //TABLE HEAD
+       <tbody>
+         {pokemonList.map((poke, index) => {
+           return (
+             <tr key={poke.id}>
+               <th className="text-gray-900 bg-white text-sm whitespace-no-wrap">
+                 {index + 1}
+               </th>
+               <td >
+                 //styling divs
+                     <img  src={poke.sprites} alt="" />
+                   </div>
+                   //styling div
+                       <span className="font-semibold"> #{poke.number}</span>{' '}
+                       {poke.name}
+                     </p>
+                   </div>
+                 </div>
+               </td>
+               <td>
+                 //span styling
+                   <span className="relative">{poke.level}</span>
+                 </span>
+               </td>
+               <td>
+                 {poke.types.map((type) => {
+                   return (
+                     //Span styling
+                     <span key={type.id} className="relative">
+                       {type.value}
+                     </span>
+                   );
+                 })}
+               </td>
+               <td>
+                 //Edit button
+                 <button
+                   onClick={() => {
+                     if (
+                       window.confirm(
+                         `Do you really want to delete #${poke.number} ${poke.name}?`
+                       )
+                     ) {
+                       dispatch(deletePokemon({ id: poke.id }));
+                     }
+                   }}
+                 >
+                   Delete
+                 </button>
+               </td>
+             </tr>
+           );
+         })}
+       </tbody>
+       //AND TABLE
+     );
+   }
+   ```
+
+1. In the **form** add function tha will dispatch events for createing a new pokemon and updating. Use `useSelector` to add the current user id when submit the form. Should looks like this:
+
+   ```js
+   //imports
+   function Pokemon() {
+     // useSelectors
+     //STATES
+
+     const handleSubmit = () => {
+       setMessage('');
+       // Check if any require inputs are empty and return a message
+       if ((name && number && selectOptions) === '') {
+         setMessage('All fields are required!');
+         return;
+       }
+
+       // Check if is editing a pokemon. If so, it will update the pokemon
+       if (isEditing) {
+         dispatch(
+           updatePokemon({
+             id: pokemonId,
+             userId: currentUser.uid,
+             name: name,
+             number: number,
+             types: selectOptions,
+             level: level,
+             sprites: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${number}.png`,
+           })
+         );
+         setMessage('Pokemon updateded successfully!');
+       }
+
+       // Add a new pokemon to the database
+       else {
+         dispatch(
+           addPokemon({
+             userId: currentUser.uid,
+             name: name,
+             number: number,
+             types: selectOptions,
+             level: level,
+             sprites: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${number}.png`,
+           })
+         );
+         setMessage('New Pokemon added successfully!');
+       }
+       setPokemonId('');
+       setName('');
+       setNumber('');
+       setLevel(1);
+       setSelectOptions('');
+       setIsEditing(false);
+     };
+
+     return (
+       //FORM Inputs
+
+       <button onClick={handleSubmit}>
+         {isEditing ? 'Save' : '+ Add New Pokemon'}
+       </button>
+
+       //TABLE
+     );
+   }
+   ```
+
+ <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Contact
 
@@ -1108,3 +1639,4 @@ Project Link: [https://github.com/K0rgana/web-advcd](https://github.com/K0rgana/
 - This project was developed for IFPE Advanced Web Topics class
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+````
