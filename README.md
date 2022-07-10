@@ -129,16 +129,41 @@ Now the following tutorial will guide you how to build a similar application to 
 ## Starting Firebase
 
 1. Access <https:/firebase.google.com>
-1. Login with a google account and access the console **(add print)**
-1. Create a project **(add print)**
-1. Create an app **(add print)**
+1. Login with a google account and access the console <https://console.firebase.google.com>
+1. Create a project
+   <img src="/img/firebase01.png" alt="create a project" title="create a project" height="190"/>
+   <img src="/img/firebase02
+   .png" alt="insert a name and continue" title="insert a name and continue" height="190"/>
+   <img src="/img/firebase03
+   .png" alt="disable google analytics and create project" title="disable google analytics and create project" height="190"/>
+   <img src="/img/firebase04
+   .png" alt="await the criation and continue" title="await the criation and continue" height="190"/>
+
+1. Create a web app
+   <img src="/img/firebase05
+   .png" alt="select web app" title="select web app" height="190"/>
+   <img src="/img/firebase06
+   .png" alt="give a name and register" title="give a name and register" height="190"/>
+
+   Now save these informations and follow the next steps:
+   <img src="/img/firebase07
+   .png" alt="save these informations" title="save these informations" height="190"/>
+
 1. Install the firebase
    ```bash
    npm install firebase
    ```
-1. Copy the firebase output (configs and SDKs imports) **(add print)** and paste in the react project. The recommendation is to create a separate file to keep the access keys in a safe place (try using environment variables). For this project, inside the `src` folder, create a new folder `util` and inside it create a new file `firebaseConfig.js`
+1. Copy the firebase output (configs and SDKs imports) **(code part higlighted in the last print)** and paste in the react project. The recommendation is to create a separate file to keep the access keys in a safe place (try using environment variables). For this project, inside the `src` folder, create a new folder `util` and inside it create a new file `firebaseConfig.js`
 
-1. Go back to firebase console and create a database in the firestore database, you can chose between the **prodution** or **test** environments.
+1. Go back to firebase console and create a database in the firestore database, you can chose between the **prodution** or **test** environments. For the location of the Cloud Firestore, just go for the default one but you can change it if you want.
+
+   <img src="/img/firebase08
+   .png" alt="create a database" title="create a database" height="190"/>
+   <img src="/img/firebase09
+   .png" alt="chose a environment" title="chose a environment" height="190"/>
+   <img src="/img/firebase10
+   .png" alt="chose a location and enable" title="chose a location and enable" height="190"/>
+
 1. If you chose the **prodution environment**, you need to access the cloud firestore rules, in the upper tabs. Now update the database rules to allow reading and writing the database (`allow read, write: if true;` - ATTENTION - this is just for the sake of this test project, do not use this rules in a real production environment). You just need to keep like this while you are learning, you can (and should) change back when deploying or when you are setting up are real application.
 1. If you chose the **test environment** just keep in mind that this environment will eventually expires and it will need to be refreshed.
 1. Go back to where you pasted the SDKs in the react project, in this case the file `/src/util/firebaseConfig.js`, and add the imports to Firestore. It should looks something like this:
