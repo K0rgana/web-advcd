@@ -45,8 +45,8 @@
       <li><a href="#firebase-actions">Firebase Actions</a></li>
       <ul>
         <li><a href="#adding-a-document">Adding a document</a></li>
-        <li><a href="#reading-a-documents">Reading a documents</a></li>
-        <li><a href="#updating-a-documents">Updating a documents</a></li>
+        <li><a href="#reading-documents">Reading documents</a></li>
+        <li><a href="#updating-documents">Updating documents</a></li>
         <li><a href="#deleting-a-documents">Deleting a documents</a></li>
       </ul>
       <li><a href="#firebase-actions">Creating Reduces with Redux</a></li>
@@ -146,17 +146,17 @@ Now the following tutorial will guide you how to build a similar application to 
 
    <img src="/img/firebase06.png" alt="give a name and register" title="give a name and register" height="190"/>
 
-- Now save these informations and follow the next steps:
+- Now save these information and follow the next steps:
 
-  <img src="/img/firebase07.png" alt="save these informations" title="save these informations" height="190"/>
+  <img src="/img/firebase07.png" alt="save these information" title="save these information" height="190"/>
 
-1. Install the firebase
+1. Install the Firebase
    ```bash
    npm install firebase
    ```
-1. Copy the firebase output (configs and SDKs imports) **(code part higlighted in the last print)** and paste in the react project. The recommendation is to create a separate file to keep the access keys in a safe place (try using environment variables). For this project, inside the `src` folder, create a new folder `util` and inside it create a new file `firebaseConfig.js`
+1. Copy the Firebase output (configs and SDKs imports) **(code part highlighted in the last print)** and paste in the React project. The recommendation is to create a separate file to keep the access keys in a safe place (try using environment variables). For this project, inside the `src` folder, create a new folder `util` and inside it create a new file `firebaseConfig.js`
 
-1. Go back to firebase console and create a database in the firestore database, you can chose between the **prodution** or **test** environments. For the location of the Cloud Firestore, just go for the default one but you can change it if you want.
+1. Go back to Firebase console and create a database in the Firestore Database, you can choose between the **production** or **test** environments. For the location of the Cloud Firestore, just go for the default one but you can change it if you want.
 
    <img src="/img/firebase08.png" alt="create a database" title="create a database" height="190"/>
 
@@ -164,9 +164,9 @@ Now the following tutorial will guide you how to build a similar application to 
 
    <img src="/img/firebase10.png" alt="chose a location and enable" title="chose a location and enable" height="190"/>
 
-1. If you chose the **prodution environment**, you need to access the cloud firestore rules, in the upper tabs. Now update the database rules to allow reading and writing the database (`allow read, write: if true;` - ATTENTION - this is just for the sake of this test project, do not use this rules in a real production environment). You just need to keep like this while you are learning, you can (and should) change back when deploying or when you are setting up are real application.
-1. If you chose the **test environment** just keep in mind that this environment will eventually expires and it will need to be refreshed.
-1. Go back to where you pasted the SDKs in the react project, in this case the file `/src/util/firebaseConfig.js`, and add the imports to Firestore. It should looks something like this:
+1. If you chose the **production environment**, you need to access the Cloud Firestore rules, in the upper tabs. Now update the database rules to allow reading and writing the database (`allow read, write: if true;` - ATTENTION - this is just for the sake of this test project, do not use this rules in a real production environment). You just need to keep like this while you are learning, you can (and should) change back when deploying or when you are setting up are real application.
+1. If you chose the **test environment** just keep in mind that this environment will eventually expire and it will need to be refreshed.
+1. Go back to where you pasted the SDKs in the React project, in this case the file `/src/util/firebaseConfig.js`, and add the imports to Firestore. It should look something like this:
 
    ```js
    import { initializeApp } from "firebase/app";
@@ -178,9 +178,9 @@ Now the following tutorial will guide you how to build a similar application to 
    export const db = getFirestore(app);
    ```
 
-> Now you can access the firebase anywhere in the project, by importing 'db'
+> Now you can access the Firebase anywhere in the project, by importing 'db'
 
-- If you created a separated file in the steps before you can import the file doing somenthing like this:
+- If you created a separated file in the steps before you can import the file doing something like this:
 
   ```js
   import { db } from '../../util/firebaseConfig';
@@ -190,7 +190,7 @@ Now the following tutorial will guide you how to build a similar application to 
 
 ## Starting Tailwind
 
-For style the app we will use the framework Tailwind CSS. To start using it you can make a full instalation or just import the CDN link in this file `/public/index.html` inside the html tag `head`. Like this:
+For style the app we will use the framework Tailwind CSS. To start using it you can make a full installation or just import the CDN link in this file `/public/index.html` inside the HTML tag `head`. Like this:
 
 ```html
 <html lang="en">
@@ -203,9 +203,9 @@ For style the app we will use the framework Tailwind CSS. To start using it you 
 </html>
 ```
 
-> Now you can style any html tag in the project, by adding a className propreaty
+> Now you can style any HTML tag in the project, by adding a className propriety
 
-- You can style the html tags doing somenthing like this:
+- You can style the HTML tags doing something like this:
 
   ```html
   <button
@@ -217,11 +217,11 @@ For style the app we will use the framework Tailwind CSS. To start using it you 
 
   <p align="right">(<a href="#top">back to top</a>)</p>
 
-## Creating react components
+## Creating React components
 
-Now we will create some react components. Inside the `src` folder, create a new folder named `components`; in such folder we will create the components `Login`, `Header` and `Pokemon`.
+Now we will create some React components. Inside the `src` folder, create a new folder named `components`; in such folder we will create the components `Login`, `Header` and `Pokemon`.
 
-Before to start to create the components, here are a few react concepts that you should know:
+Before to start to create the components, here are a few React concepts that you should know:
 
 - Component: A component is a piece of code that when exported can be reused in other parts of the code
 - Basic structure of a Component: The structure is similar to a function that will return a HTML code. It looks like this:
@@ -229,7 +229,7 @@ Before to start to create the components, here are a few react concepts that you
   ```js
   function Component () {
     return (
-      // html code
+      // HTML code
     );
   };
   export default Component;
@@ -244,7 +244,7 @@ Before to start to create the components, here are a few react concepts that you
 
   - `useEffect` Hook: Allows you to perform side effects as fetch data, trigger DOM Events, and set timers in your components. The hook has one mandatory argument, a function.
 
-  See an exemple of how to use them, this will set a state varible `count` and update its value every second:
+  See an example of how to use them, this will set a state variable `count` and update its value every second:
 
   ```js
   // Importing the useState and useEffect hooks from the React library.
@@ -261,7 +261,7 @@ Before to start to create the components, here are a few react concepts that you
       }, 1000);
     });
 
-    // the React component that renders a html tag @count.
+    // the React component that renders a HTML tag @count.
     return (
       <>
         <h1>I've rendered {count} times!</h1>;
@@ -271,17 +271,17 @@ Before to start to create the components, here are a few react concepts that you
   }
   ```
 
-  > Now you're already know everyting to start to creating app components!
+  > Now you're already know everything to start to creating app components!
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Login component
 
-For the Login component we will create a form that will login and register the user in the firebase. Follow the steps:
+For the Login component we will create a form that will login and register the user in the Firebase. Follow the steps:
 
 1. Create a new file in the `components` folder with the name `Login.js`
-1. Write a basic react component structure, should be a function that return a html code
-1. Add html form that contains `email` and `password` inputs and two `buttons` one for `login` and another one for `register`, you also can add a `button` for `continue with google` inside the `return`
+1. Write a basic React component structure, should be a function that return a HTML code
+1. Add HTML form that contains `email` and `password` inputs and two `buttons` one for `login` and another one for `register`, you also can add a `button` for `continue with google` inside the `return`
 1. Should look like this:
 
    ```js
@@ -324,7 +324,7 @@ For the Login component we will create a form that will login and register the u
    export default Login;
    ```
 
-1. Create `error`, `email` and `password` states for the form varibles with the `useState` hook
+1. Create `error`, `email` and `password` states for the form variables with the `useState` hook
 
    ```js
    const Login = () => {
@@ -392,7 +392,7 @@ For the Login component we will create a form that will login and register the u
 For the Header component we will create structure that will show the current user and a logout button. Follow the steps:
 
 1. Create a new file in the `components` folder with the name `Header.js`
-1. Write a basic react component structure, should be a function that return a html code
+1. Write a basic React component structure, should be a function that return a HTML code
 1. Add one `h3` and `button` tags inside of `div` in the return, the first `div` will wrap all tags and the second will wrap just the button
 1. Should look like this:
 
@@ -419,11 +419,11 @@ For the Header component we will create structure that will show the current use
 
 ### Pokemon component
 
-For the Pokemon component we will create a form that will submit pokemons and a table that will show every user's pokemon. Follow the steps:
+For the Pokemon component we will create a form that will submit an new Pokemon and a table that will show every user's Pokemon. Follow the steps:
 
 1. Create a new file in the `components` folder with the name `Pokemon.js`
-1. Write a basic react component structure, should be a function that return a html code
-1. Add html form that contains `name`, `number`, `level` inputs and a submit `button` inside the `return`
+1. Write a basic React component structure, should be a function that return a HTML code
+1. Add HTML form that contains `name`, `number`, `level` inputs and a submit `button` inside the `return`
 1. Should look like this:
 
    ```js
@@ -463,7 +463,7 @@ For the Pokemon component we will create a form that will submit pokemons and a 
    export default Pokemon;
    ```
 
-1. Create `name`, `number`, `level`, `message`, `isEditing` states for the form varibles with the `useState` hook
+1. Create `name`, `number`, `level`, `message`, `isEditing` states for the form variables with the `useState` hook
 
    ```js
    const Pokemon = () => {
@@ -481,7 +481,7 @@ For the Pokemon component we will create a form that will submit pokemons and a 
    export default Pokemon;
    ```
 
-1. Set the massage state above the form, for every time that app has a messagem for this component then will show the feedback to the user
+1. Set the message state above the form, for every time that app has a message for this component then will show the feedback to the user
 
    ```js
    const Pokemon = () => {
@@ -559,11 +559,11 @@ For the Pokemon component we will create a form that will submit pokemons and a 
    ```bash
       npm install react-select
    ```
-1. create dummy data in a const for the options of the `Select`
+1. Create dummy data in a `const` for the options of the `Select`
 
    ```js
    function Pokemon() {
-   //select pokemon types list
+   //select Pokemon types list
    const options = [
      { id: 0, label: 'Fairy', value: 'Fairy' },
      { id: 1, label: 'Normal', value: 'Normal' },
@@ -714,7 +714,7 @@ For the Pokemon component we will create a form that will submit pokemons and a 
 
    ```
 
-1. Inside of each `button` that we just created, add a function that will set each input with the pokemon data when editing, the trigger will be a `onClick` event. for the delete button we will just dispach a alert of confirmation for now:
+1. Inside of each `button` that we just created, add a function that will set each input with the Pokemon data when editing, the trigger will be a `onClick` event. For the delete button we will just dispatch a alert of confirmation for now:
 
    ```js
    <tr>
@@ -755,13 +755,13 @@ For the Pokemon component we will create a form that will submit pokemons and a 
        npm install redux react-redux @reduxjs/toolkit
     ```
 1.  Go to the file `/src/index.js`. Import `configureStore` from `@reduxjs/toolkit` and
-    `Provider` from `react-redux`. Then create create a const `store` that will contain a root reducer. You also have to wrap the componet `App` with the `Provider. Like this:
+    `Provider` from `react-redux`. Then create a const `store` that will contain a root reducer. You also have to wrap the component `App` with the `Provider`. Like this:
 
     ```js
 
-    //To config redux:
-    //import the provider from react redux and wrap around the main app component
-    //When using redux toolkit, can configureStore as a prop in the provider componet
+    //To config Redux:
+    //import the provider from React Redux and wrap around the main app component
+    //When using Redux Toolkit, can configureStore as a prop in the provider component
 
         import { configureStore } from '@reduxjs/toolkit';
         import { Provider } from 'react-redux';
@@ -856,26 +856,26 @@ For the Pokemon component we will create a form that will submit pokemons and a 
 
 ## Firebase Actions
 
-Before we start to interact with firebase, here are some tips on how to make some actions like adding, updating, deleting or reading data from the database. The firebase is a non relational database, witch the structure is formed by **Collection** and **Documents**, you can think them as standard structure of folders and documents.
+Before we start to interact with Firebase, here are some tips on how to make some actions like adding, updating, deleting or reading data from the database. The Firebase is a non relational database, witch the structure is formed by **Collection** and **Documents**, you can think them as standard structure of folders and documents.
 
 A **Collection** can contain multiples documents. And a **Document** can contain data and **Sub Collection**. To start make any actions in the database you need to import in the file the **db** from your file config, in this case from `/src/util/firebaseConfig.js`
 
 ### Adding a document
 
-For create a new document in a collection exists two ways of doing, the first one using **AddDoc** where firebase will automatically generates the id of the document for you, another way is using **setDoc** where you can explicitly specifying the document id with **doc** method.
+For create a new document in a collection exists two ways of doing, the first one using **AddDoc** where Firebase will automatically generate the id of the document for you, another way is using **setDoc** where you can explicitly specify the document id with **doc** method.
 
-For both ways you need to import **collection** and a method **addDoc** or **setDoc**, when use setDoc also import **doc**, from `'firebase/firestore'` to be able to manage a collection and add a document in the database. If the collection doesn't exist the firebase will create it automaticaly.
+For both ways you need to import **collection** and a method **addDoc** or **setDoc**, when use setDoc also import **doc**, from `'firebase/firestore'` to be able to manage a collection and add a document in the database. If the collection doesn't exist the Firebase will create it automatically.
 
-When making multiples actions in a file is commum to create a `const` to store the collection reference, to make it a reference to a collection you can pass two paramenters like this `collection(db, <collection name>)`.
+When making multiples actions in a file is commum to create a `const` to store the collection reference, to make it a reference to a collection you can pass two parameters like this `collection(db, <collection name>)`.
 
-Here is a exemple:
+Here is a example:
 
 ```js
 // others imports
 import { db } from './firebase/firebaseConfig';
 import { collection, addDoc, setDoc } from 'firebase/firestore';
 
-// data for the document to be insert in the database
+// data for the document to be inserted in the database
 const data = {
   name: 'Ash Ketchum',
   country: 'Japan',
@@ -885,7 +885,7 @@ const usersRef = collection(db, 'users');
 
 // add a new document with a generated id.
 const docRef = await addDoc(usersRef, data);
-console.log('Document written with genereted ID: ', docRef.id);
+console.log('Document written with generated ID: ', docRef.id);
 
 // Add a new document in collection 'users' with the id as 'MistyWilliams'
 const docMisty = await setDoc(doc(db, 'users', 'MistyWilliams'), {
@@ -897,7 +897,7 @@ console.log('Document written with specified ID: ', docMisty.id);
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-### Reading a documents
+### Reading documents
 
 For reading a single document from the database you need to create a new function that will handle this call to firestore using `getDocs(<collection name reference>)`;
 
@@ -933,18 +933,18 @@ console.log('Collcection Documents: ', docsColl);
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-### Updating a documents
+### Updating documents
 
 For update a document in a collection, you need to import **collection** and the methods **doc** and **updateDoc** from `'firebase/firestore'` to be able to manage a collection and get a document and updating the data on the database.
 
-Here is a exemple:
+Here is a example:
 
 ```js
 // others imports
 import { db } from './firebase/firebaseConfig';
 import { collection, doc, updateDoc } from 'firebase/firestore';
 
-// data for the document to be insert in the database
+// data for the document to be inserted in the database
 const newData = {
   name: 'Brock Harrison',
   country: 'Tokyo',
@@ -962,7 +962,7 @@ console.log('Document updated: ', docMisty);
 
 For delete a document in a collection, you need to import **collection** and the methods **doc** and **deleteDoc** from `'firebase/firestore'` to be able to manage a collection and get a document and delete it from the database.
 
-Here is a exemple:
+Here is a example:
 
 ```js
 // others imports
@@ -995,7 +995,7 @@ deleteDoc(userRef);
    });
    ```
 
-1. Now in the **initialState** create a new state named `currentUser` that will always look for the user's data in the **localStorage** of the browser, if the data doesn't exist we will inicialize with a empty array.
+1. Now in the **initialState** create a new state named `currentUser` that will always look for the user's data in the **localStorage** of the browser, if the data doesn't exist we will initialize with a empty array.
 
    ```js
    const initialStateValue = [];
@@ -1012,7 +1012,7 @@ deleteDoc(userRef);
    });
    ```
 
-1. In the **reducers** we will create it new actions that will interact with the database and update the current state of `values` in the **initialState**. Now create a new action named `addTrainer` that will create a new document with an explicitly id that store the user's data in the database.
+1. In the **reducers** we will create it new actions that will interact with the database and update the current state of `values` in the **initialState**. Now create a new action named `addTrainer` that will create a new document with a explicitly id that store the user's data in the database.
 
    ```js
     //set the references endpoint to the database
@@ -1051,7 +1051,7 @@ deleteDoc(userRef);
    });
    ```
 
-1. export this actions that were created, so we can use it on app. should looks like this:
+1. Export this actions that were created, so we can use it on app. Should look like this:
 
    ```js
    export const trainerSlice = createSlice({
@@ -1088,7 +1088,7 @@ deleteDoc(userRef);
    });
    ```
 
-1. Now in the **initialState** create a new state named `value` and `status` that will store pokemons list , if the pokemon list doesn't exist wet we will inicialize with a empty array.
+1. Now in the **initialState** create a new state named `value` and `status` that will store Pokemons list, if the Pokemon list doesn't exist wet we will initialize with a empty array.
 
    ```js
    const initialStateValue = [];
@@ -1105,7 +1105,7 @@ deleteDoc(userRef);
    });
    ```
 
-1. In the **reducers** we will create it new actions that will interact with the database and update the current state of `value` in the **initialState**. Now create new actions to create, update and delete pokemons from a document that will be store in the database.
+1. In the **reducers** we will create it new actions that will interact with the database and update the current state of `value` in the **initialState**. Now create new actions to create, update and delete Pokemons from a document that will be store in the database.
 
    ```js
     //set the references endpoint to the database
@@ -1116,7 +1116,7 @@ deleteDoc(userRef);
      // ACTIONS
      reducers: {
        addPokemon: (state, action) => {
-        /* Add a new pokemon to the database and to the 'state' in the 'initialState'. */
+        /* Add a new Pokemon to the database and to the 'state' in the 'initialState'. */
         addDoc(collectionRef, action.payload);
         state.value.push(action.payload);
       },
@@ -1140,7 +1140,7 @@ deleteDoc(userRef);
       deletePokemon: (state, action) => {
         /* Set reference to the document in the database. */
         const pokemonRef = doc(db, 'pokemons', action.payload.id);
-        /* Delete the pokemon from the database and from the 'state' in the 'initialState' */
+        /* Delete the Pokemon from the database and from the 'state' in the 'initialState' */
         deleteDoc(pokemonRef);
         state.value = state.value.filter(
           (pokemon) => pokemon.id !== action.payload.id
@@ -1149,7 +1149,7 @@ deleteDoc(userRef);
    });
    ```
 
-1. export this actions that were created, so we can use it on app. should looks like this:
+1. Export this actions that were created, so we can use it on app. should looks like this:
 
    ```js
    export const pokemonSlice = createSlice({
@@ -1180,7 +1180,7 @@ deleteDoc(userRef);
          }));
          return initialValue;
        } catch (error) {
-         /* Returnthe error message to the component*/
+         /* Return the error message to the component*/
          return thunkAPI.rejectWithValue({ error: error.message });
        }
      }
@@ -1238,7 +1238,7 @@ deleteDoc(userRef);
    }
    ```
 
-1. Now we will use `useEffect` for triggering the thunk to get the pokemons from the database and for get the **currentUser** user's data from the localStorage. Also in the `return` part add the components.
+1. Now we will use `useEffect` to trigger the thunk to get the Pokemons from the database and to get the **currentUser** user's data from the localStorage. Also in the `return` part add the components.
 
    ```js
    //...imports
@@ -1247,7 +1247,7 @@ deleteDoc(userRef);
      //hook that allows you to dispatch actions to the Redux store
      const dispatch = useDispatch();
 
-     // Getting the current user from the redux store
+     // Getting the current user from the Redux store
      const currentUser = useSelector((state) => state.trainer.currentUser);
 
      // this hook is called when the component is mounted
@@ -1287,7 +1287,7 @@ deleteDoc(userRef);
 
    <img src="/img/firebase14.png" alt="now is enable" title="now is enable" height="190"/>
 
-1. Go to `/src/util/firebaseConfig.js` and import `getAuth` from `firebase/auth`. should looks like this:
+1. Go to `/src/util/firebaseConfig.js` and import `getAuth` from `firebase/auth`. Should look like this:
 
    ```js
    //...imports
@@ -1361,7 +1361,7 @@ deleteDoc(userRef);
            // Signed in
            const user = userCredential.user;
 
-           // trigger the funtion 'addTrainer' to the store
+           // trigger the function 'addTrainer' to the store
            dispatch(
              addTrainer({
                uid: user.uid,
@@ -1407,7 +1407,7 @@ deleteDoc(userRef);
    };
    ```
 
-1. Now we will show the current user in the header component. Go to `/src/components/Header.js` and import:
+1. Now we will show the current user in the Header component. Go to `/src/components/Header.js` and import:
 
    - `auth` from the `firebaseConfig.js`;
    - `signOut` from `firebase/auth`;
@@ -1426,7 +1426,7 @@ deleteDoc(userRef);
    };
    ```
 
-1. Use `useSelector` to display the current user info and in the button **logout**, dispatch a function to trigger the `logoutTrainer`. should looks like this:
+1. Use `useSelector` to display the current user data and in the button **logout**, dispatch a function to trigger the `logoutTrainer`. Should look like this:
 
    ```js
    //imports
@@ -1482,7 +1482,7 @@ deleteDoc(userRef);
    };
    ```
 
-1. Use `useSelector` to display the pokemons in the **tbody** add dispatch an event on the delete button. should looks like this:
+1. Use `useSelector` to display the Pokemons in the **tbody** and add dispatch event on the delete button. Should look like this:
 
    ```js
    //imports
@@ -1490,7 +1490,7 @@ deleteDoc(userRef);
      //hook that allows dispatch actions to the Redux store
      const dispatch = useDispatch();
 
-     // get pokemons list an the current user from state
+     // get Pokemons list and the current user from state
      const pokemonList = useSelector((state) => state.pokemon.value);
      const currentUser = useSelector((state) => state.trainer.currentUser);
 
@@ -1558,7 +1558,7 @@ deleteDoc(userRef);
    }
    ```
 
-1. In the **form** add function tha will dispatch events for createing a new pokemon and updating. Use `useSelector` to add the current user id when submit the form. Should looks like this:
+1. In the **form** add an function that will dispatch events for creating a new Pokemon and updating. Use `useSelector` to add the current user id when submiting the form. Should look like this:
 
    ```js
    //imports
@@ -1587,10 +1587,10 @@ deleteDoc(userRef);
              sprites: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${number}.png`,
            })
          );
-         setMessage('Pokemon updateded successfully!');
+         setMessage('Pokemon updated successfully!');
        }
 
-       // Add a new pokemon to the database
+       // Add a new Pokemon to the database
        else {
          dispatch(
            addPokemon({
@@ -1636,7 +1636,6 @@ Project Link: [https://github.com/K0rgana/web-advcd](https://github.com/K0rgana/
 
 ## Acknowledgments
 
-- This project was developed for IFPE Advanced Web Topics class
+- This project was developed for Advanced Web Topics class from Systems for Internet course from federal institute of Pernambuco (IFPE)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-````
