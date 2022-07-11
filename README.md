@@ -49,7 +49,10 @@
         <li><a href="#updating-documents">Updating documents</a></li>
         <li><a href="#deleting-a-documents">Deleting a documents</a></li>
       </ul>
-      <li><a href="#firebase-actions">Creating Reduces with Redux</a></li>
+      <li><a href="#creating-reduces-with-redux">Creating Reduces with Redux</a></li>
+      <li><a href="#using-reduces-on-the-app">Using Reduces on the app</a></li>
+      <li><a href="#firebase-authentication">Firebase Authentication</a></li>
+      <li><a href="#using-reduces-on-component">Using Reduces on Component</a></li>
      </ul>
       <li><a href="#contact">Contact</a></li>
       <li><a href="#acknowledgments">Acknowledgments</a></li>
@@ -1220,6 +1223,10 @@ deleteDoc(userRef);
    });
    ```
 
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Using Reduces on the App
+
 1. Access the `App.js` file in the root project. Now we will import the **components** and **reduces** that we created. Also import `useDispatch, useSelector ` from `react-redux` and `useEffect` from `react`. Looks like this:
 
    ```js
@@ -1276,6 +1283,10 @@ deleteDoc(userRef);
      );
    }
    ```
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Firebase Authentication
 
 1. Now we will use the Firebase's Authentication service. Enable the feature in the Firebase console like this:
 
@@ -1481,6 +1492,10 @@ deleteDoc(userRef);
      //...code
    };
    ```
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Using Reduces on Component
 
 1. Use `useSelector` to display the Pokemons in the **tbody** and add dispatch event on the delete button. Should look like this:
 
